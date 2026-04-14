@@ -17,7 +17,9 @@ async function bootstrap(): Promise<void> {
   );
 
   app.enableCors({
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:5173',
+    origin:
+      process.env.FRONTEND_URL ??
+      'https://job-post-assessment-frontend-five.vercel.app/',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
