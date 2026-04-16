@@ -13,6 +13,12 @@ export enum ScheduleType {
   PER_DIEM = 'PER_DIEM',
 }
 
+export enum JobPostStatus {
+  DRAFT = 'DRAFT',
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+}
+
 /**
  * Represents a job post listing in the system.
  * Maps to the `job_posts` table in PostgreSQL.
@@ -42,6 +48,9 @@ export class JobPost {
 
   @Column({ type: 'text', nullable: true })
   description: string | null;
+
+  @Column({ type: 'enum', enum: JobPostStatus, default: JobPostStatus.DRAFT })
+  status: JobPostStatus;
 
   @CreateDateColumn()
   readonly createdAt: Date;

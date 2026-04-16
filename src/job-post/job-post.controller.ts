@@ -2,12 +2,15 @@ import {
   Controller,
   Get,
   Post,
+  Patch,
   Body,
+  Param,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
 import { JobPostService } from './job-post.service';
 import { CreateJobPostDto } from './create-job-post.dto';
+import { UpdateJobPostStatusDto } from './update-job-post-status.dto';
 import { JobPost } from './job-post.entity';
 
 interface JobPostResponse {
@@ -54,5 +57,18 @@ export class JobPostController {
       };
     }
     return { success: true, count: jobPosts.length, data: jobPosts };
+  }
+
+  /**
+   * Updates the status of an existing job post.
+   * Enforces the rule that a post cannot transition to OPEN without required fields.
+   */
+  @Patch(':id/status')
+  async updateJobPostStatus(
+    @Param('id') id: string,
+    @Body() updateJobPostStatusDto: UpdateJobPostStatusDto,
+  ): Promise<JobPostResponse> {
+    const jobPost = await this.jobPostService.updateJobPostStatus(id, updateJobPostStatusDto);
+    return { success: true, data: jobPost };
   }
 }
