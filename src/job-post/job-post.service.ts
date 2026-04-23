@@ -37,6 +37,20 @@ export class JobPostService {
   }
 
   /**
+   * Returns a single job post by id, or null if not found.
+   */
+  async findOneById(id: string): Promise<JobPost | null> {
+    try {
+      return await this.jobPostRepository.findOne({ where: { id } });
+    } catch (error) {
+      this.logger.error('Failed to fetch job post by id', error);
+      throw new InternalServerErrorException(
+        'Could not fetch job post. Please try again.',
+      );
+    }
+  }
+
+  /**
    * Returns all job posts sorted by creation date descending (newest first).
    * Returns an empty array when no records exist.
    */
